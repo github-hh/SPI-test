@@ -7,7 +7,7 @@ import time
 spi=spidev.SpiDev()         # SPI object generation
 spi.open(0,0)               # open SPI with bus:0 ,device:0
 spi.bits_per_word=8        # 8 bits per word
-spi.max_spped_hz=1000000    # maximum clock speed
+spi.max_speed_hz=1000000    # maximum clock speed
 spi.mode=0                  # SPI transmission mode
 
 reg_dict = {0x18:1, 0x28:1,\
