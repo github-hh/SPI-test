@@ -7,7 +7,7 @@ import time
 spi=spidev.SpiDev()         # SPI object generation
 spi.open(0,0)               # open SPI with bus:0 ,device:0
 spi.bits_per_word=8        # 8 bits per word
-spi.max_speed_hz=1000000    # maximum clock speed
+spi.max_speed_hz=20000000    # maximum clock speed
 spi.mode=0                  # SPI transmission mode
 
 reg_dict = {0x18:1, 0x28:1,\
@@ -43,4 +43,35 @@ def reg_read(addr):
     
 def reg_write(addr_data):
     ad=spi.xfer2(addr_data)
-        
+
+spi.xfer2([0x55,0x55]*10)
+
+spi.close()
+
+import RPi.GPIO as GPIO
+import time
+testout=17
+testin=22
+count=0
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(testout, GPIO.OUT)
+GPIO.setup(testin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#GPIO.cleanup()
+GPIO.add_event_detect(testin, GPIO.FALLING)
+import matplotlib.pyplot as plt
+def my_callback(self):
+    global count
+    print(count)
+    count=count+1
+    #print(GPIO.input(testin))
+    
+GPIO.add_event_callback(testin, my_callback)
+
+while True:
+    GPIO.output(testout,True)
+    time.sleep(5)
+    GPIO.output(testout,False)
+    time.sleep(5)
+    
+GPIO.cleanup()
