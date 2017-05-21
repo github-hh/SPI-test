@@ -1,3 +1,12 @@
+from scipy import misc
+import matplotlib.pyplot as plt
+
+image = misc.imread("Tulips.jpg",flatten=True)
+plt.figure()
+plt.gray()
+plt.imshow(image)
+plt.show()
+
 import cv2
 
 image = cv2.imread("Tulips.jpg")
